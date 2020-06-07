@@ -18,9 +18,11 @@ class PointsController {
       .select('points.*');
 
     const serializedPoints = points.map((point) => {
+      const hostname = process.env.BACKEND_URL || '192.168.15.120';
+      const port = process.env.BACKEND_PORT || '3000';
       return {
         ...point,
-        image_url: `http://192.168.15.120:3333/uploads/${point.image}`,
+        image_url: `http://${hostname}:${port}/uploads/${point.image}`,
       };
     });
 
@@ -35,9 +37,11 @@ class PointsController {
     if (!point) {
       return response.status(400).json({ message: 'Point not found.' });
     }
+    const hostname = process.env.BACKEND_URL || '192.168.15.120';
+    const port = process.env.BACKEND_PORT || '3000';
     const serializedPoint = {
       ...point,
-      image_url: `http://192.168.15.120:3333/uploads/${point.image}`,
+      image_url: `http://${hostname}:${port}/uploads/${point.image}`,
     };
 
     const items = await knex('items')
